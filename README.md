@@ -5,7 +5,9 @@ Batch Convert 4 is a MuseScore plugin for Windows only that scans a specified fo
 ⚠️ Note: This plugin is currently compatible with Windows only.
 
 Automatically scans a folder looking for .mscz files
+
 Exports all scores into multiple formats
+
 Filter names
 
 ✅ Available Output Formats:
