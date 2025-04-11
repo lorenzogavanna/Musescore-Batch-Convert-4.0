@@ -259,7 +259,7 @@ MuseScore {
 						height: parent.height
 						color: "black"
 						ToolTip.visible: txtFilter.hovered
-						ToolTip.text: "Default is no filter.\nEnter a wildcard pattern for filtering:\n* = any characters\n? = any single character\ni.e.:\n  *clarinet*.mscz → files containing 'clarinet'\n  ??score.mscz → files like '01score.mscz'"
+						ToolTip.text: "Default is no filter.\nEnter a wildcard pattern for filtering:\n* = any characters\n? = any single character\ni.e.:\n  *clarinet* → files containing 'clarinet'\n  ??score → files like '01score'"
 					}
 				}
 			}
@@ -381,7 +381,7 @@ MuseScore {
 				onClicked: {
 					quit();
 				}
-			}        
+			}
 			CustomButton { 
 				text: "Reset Log"
 				height: 30
