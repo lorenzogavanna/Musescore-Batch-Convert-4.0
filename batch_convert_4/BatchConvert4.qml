@@ -17,7 +17,7 @@ MuseScore {
     width: 600
     height: 750
 	
-	property var pluginName: "BatchConvert"
+	property var pluginName: "Batch Convert 4.0"
 	property int isTest: 0 //show test btns if 1 you will be able to show test btns
 	property int justPreview: 0 //0 will perform the conversion 1 will not
 	//check onCompleted for value
