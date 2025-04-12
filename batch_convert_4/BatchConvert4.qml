@@ -18,7 +18,7 @@ MuseScore {
     height: 750
 	
 	property var pluginName: "Batch Convert 4.0"
-	property int isTest: 0 //show test btns if 1 you will be able to show test btns
+	property int isTest: 1 //show test btns if 1 you will be able to show test btns
 	property int justPreview: 0 //0 will perform the conversion 1 will not
 	//check onCompleted for value
 	property string pgFldr: ""		//plugin Folder
@@ -38,8 +38,13 @@ MuseScore {
 		pgFldr = String(Qt.resolvedUrl(".")).replace("file:///", "").replace(/\//g, "\\");
 		appEx = Qt.application.arguments[0];
 		currOs = Qt.platform.os;
+
     }
-	
+
+
+
+
+
 	SelectMultipleDirectoriesModel {
 		id: directoriesModelImport
 	}
@@ -65,6 +70,9 @@ MuseScore {
 			txtExport.text=exportDir
 		}
 	}
+QDir{
+id:lore
+}
 
 	Rectangle {
 		id: customAlert
@@ -447,7 +455,7 @@ MuseScore {
 					id: lblLog
 					color: "blue"
 					wrapMode: TextArea.Wrap
-					readOnly: true
+					readOnly: isTest === 0
 				}
 			}
 		}
@@ -455,10 +463,9 @@ MuseScore {
 	}//rec
 
     //functions
-	
 	function test(str){
+		testTypes();
 
-			_ltxt(isValidPath(txtImport.text).toString(),currOs);
 	}
 
 	function _l(str1,str2,str3,str4){
