@@ -18,7 +18,7 @@ MuseScore {
     height: 750
 	
 	property var pluginName: "Batch Convert 4.0"
-	property int isTest: 1 //show test btns if 1 you will be able to show test btns
+	property int isTest: 0 //show test btns if 1 you will be able to show test btns
 	property int justPreview: 0 //0 will perform the conversion 1 will not
 	//check onCompleted for value
 	property string pgFldr: ""		//plugin Folder
@@ -70,10 +70,7 @@ MuseScore {
 			txtExport.text=exportDir
 		}
 	}
-QDir{
-id:lore
-}
-
+	
 	Rectangle {
 		id: customAlert
 		visible: false
@@ -464,7 +461,6 @@ id:lore
 
     //functions
 	function test(str){
-		testTypes();
 
 	}
 
