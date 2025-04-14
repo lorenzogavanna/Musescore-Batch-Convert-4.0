@@ -71,8 +71,15 @@ MuseScore {
 		}
 	}
 	
+	QProcess {
+		id:process
+	}
+	
+	Item {
+}
+	
 	Rectangle {
-		id: customAlert
+		id: customAlertExport
 		visible: false
 		anchors.centerIn: parent
 		width: 200
@@ -88,10 +95,10 @@ MuseScore {
 			anchors.centerIn: parent
 			spacing: 10
 			width: parent.width
-			anchors.margins: 10
+			anchors.margins: 15
 
 			Text {
-				text: customAlert.message
+				text: customAlertExport.message
 				color: "red"
 				wrapMode: Text.Wrap
 				horizontalAlignment: Text.AlignHCenter
@@ -115,7 +122,83 @@ MuseScore {
 
 				MouseArea {
 					anchors.fill: parent
-					onClicked: customAlert.visible = false
+					onClicked: customAlertExport.visible = false
+				}
+			}
+			
+			Rectangle {
+				width: 100
+				height: 30
+				color: "#FFCCCC"
+				border.color: "black"
+				radius: 5
+				anchors.horizontalCenter: parent.horizontalCenter
+
+				Text {
+					anchors.centerIn: parent
+					text: "Choose folder"
+					color: "black"
+				}
+
+				MouseArea {
+					anchors.fill: parent
+					onClicked: {
+						customAlertExport.visible = false
+						directoriesModelExport.load("", "")
+						directoriesModelExport.addDirectory()
+					}
+				}
+			}
+			
+		
+		}
+	}
+
+	Rectangle {
+		id: customAlertOk
+		visible: false
+		anchors.centerIn: parent
+		width: 200
+		height: 100
+		color: "#FF9999"
+		border.color: "black"
+		radius: 10
+		z: 999
+
+		property string message: "Error!"
+
+		Column {
+			anchors.centerIn: parent
+			spacing: 10
+			width: parent.width
+			anchors.margins: 10
+
+			Text {
+				text: customAlertOk.message
+				color: "red"
+				wrapMode: Text.Wrap
+				horizontalAlignment: Text.AlignHCenter
+				anchors.horizontalCenter: parent.horizontalCenter
+				width: parent.width
+			}
+
+			Rectangle {
+				width: 60
+				height: 30
+				color: "#FFCCCC"
+				border.color: "black"
+				radius: 5
+				anchors.horizontalCenter: parent.horizontalCenter
+
+				Text {
+					anchors.centerIn: parent
+					text: "OK"
+					color: "black"
+				}
+
+				MouseArea {
+					anchors.fill: parent
+					onClicked: customAlertOk.visible = false
 				}
 			}
 		}
@@ -460,16 +543,69 @@ MuseScore {
 	}//rec
 
     //functions
-	function test(str){
-
-	}
-
-	function _l(str1,str2,str3,str4){
-		let strings = [str1, str2, str3, str4];
-		let validStrings = strings.filter(str => str && str.trim() !== "");		
-		logWr("\n" + validStrings.join("\n"));
-	}
 	
+function test(str) {
+    var command1 = escapeStr("E:\\Drive12\\Spartiti\\mus\\", "\\", "/");
+    var fileExtension = "*.mscz";
+    
+    var fullImportPathWithFilter = command1 + txtFilter.text + fileExtension;
+    var escapedImportPath = escapePath(fullImportPathWithFilter);
+    
+    var listPathRaw = listFile.source;
+    var listPathWin = listPathRaw.replace(/\//g, "\\");
+
+    var escapedListPath = escapePath(listPathWin);
+        process.errorOccurred.connect(function(error) {
+            _ltxt("Errore QProcess:", error);
+            switch (error) {
+                case QProcess.FailedToStart:
+                    _ltxt("Errore: Impossibile avviare il processo");
+                    break;
+                case QProcess.Crashed:
+                    _ltxt("Errore: Il processo è crashato");
+                    break;
+                case QProcess.Timedout:
+                    _ltxt("Errore: Timeout");
+                    break;
+                case QProcess.WriteError:
+                    _ltxt("Errore: Problema in scrittura");
+                    break;
+                case QProcess.ReadError:
+                    _ltxt("Errore: Problema in lettura");
+                    break;
+                case QProcess.UnknownError:
+                default:
+                    _ltxt("Errore sconosciuto");
+                    break;
+            }
+        });
+    
+    // Create a complete command string
+    var myCommand = "cmd.exe";
+    _ltxt(lblLog.text,"Command: " + myCommand);
+    
+    // Start the process with a single string
+    process.start(myCommand);
+    
+
+}
+
+function escapeStr(str, or, sub) {
+    var newStr = str;
+    while (newStr.indexOf(or) !== -1) {
+        newStr = newStr.replace(or, sub);  // Sostituisce ogni barra rovesciata con una barra
+    }
+    return newStr;
+}
+
+	
+	
+	function _l(str1,str2,str3,str4){
+			let strings = [str1, str2, str3, str4];
+			let validStrings = strings.filter(str => str && str.trim() !== "");		
+			logWr("\n" + validStrings.join("\n"));
+		}
+		
 	function _ltxt(str1, str2, str3, str4) {
 		let strings = [str1, str2, str3, str4];
 		let validStrings = strings.filter(str => str && str.trim() !== "");
@@ -478,17 +614,17 @@ MuseScore {
 
 	function readFldrAndConvert(isPreview) {
 		if (txtImport.text === "") {
-			customAlert.visible = true;
-			customAlert.message = "Please set an import directory";
+			customAlertOk.visible = true;
+			customAlertOk.message = "Please set an import directory";
 		} else if (!isValidPath(txtImport.text)) {
-			customAlert.visible = true;
-			customAlert.message = "Invalid import path format";
+			customAlertOk.visible = true;
+			customAlertOk.message = "Invalid import path format";
 		} else if (txtExport.text === "") {
-			customAlert.visible = true;
-			customAlert.message = "Please set an export directory";
+			customAlertExport.visible = true;
+			customAlertExport.message = "Please set an export directory";
 		} else if (!isValidPath(txtExport.text)) {
-			customAlert.visible = true;
-			customAlert.message = "Invalid export path format";
+			customAlertExport.visible = true;
+			customAlertExport.message = "Invalid export path format";
 		} else {
 			justPreview=isPreview;
 			if (!txtImport.text.endsWith("/")) txtImport.text += "/";
@@ -560,8 +696,8 @@ MuseScore {
 		splFlLst = flLst.split("\n").filter(item => item.trim() !== "");
 
 		if (splFlLst.length === 0) {
-			customAlert.visible = true;
-			customAlert.message = "The import folder is empty or no files match your filter.";
+			customAlertOk.visible = true;
+			customAlertOk.message = "The import folder is empty or no files match your filter.";
 			_ltxt(lblLog.text,"The import folder is empty or no files match your filter.")
 			return;
 		}
