@@ -9,16 +9,7 @@ Exports all scores into multiple formats
 Filter names
 
 Available Output Formats:
-mscx
-musicxml / mxl
-mid / midi
-pdf
-png
-svg
-wav
-flac
-ogg
-mp3
+mscx\musicxml\mxl\mid\midi\pdf\png\svg\wav\flac\ogg\mp3
 
 ⚙️ Installation 
 1. Copy the entire batch_convert_4 folder into your MuseScore plugin directory.
