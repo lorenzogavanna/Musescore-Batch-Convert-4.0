@@ -12,7 +12,7 @@ Available Output Formats:
 mscx\musicxml\mxl\mid\midi\pdf\png\svg\wav\flac\ogg\mp3
 
 ⚙️ Installation 
-1. Copy the entire batch_convert_4 folder into your MuseScore plugin directory.
+1. Copy the entire batch_convert_4 folder into your personal MuseScore plugin directory.
 
 2. Open MuseScore and activate the plugin in the Plugin Manager.
 
